@@ -1,0 +1,5 @@
+'crewai[tools]'
+psycopg2
+markdown2
+crewai
+streamlit

@@ -1,0 +1,61 @@
+query_creation_task:
+  description: >
+    Plain Text: {plain_query}
+    Given the plain text to fetch some information from a database, convert this plain text to a valid PostgresSQL query.
+    Make sure to understand the understand what information the text requires and accordingly craft a valid PostgresSQL query.
+
+  expected_output: >
+    PostgresSQL QUERY IN STRING FORMAT AND NO OTHER TEXT.
+    Formatted as string without '```'
+  agent: query_creator
+
+
+query_execution_task:
+  description: >
+    Given the PostgresSQL, your task is to execute this query and get the results.
+    If there is some error while executing the query, pass this error to the previous task and re-write the query.
+    The system should generate accurate SQL queries that align with the schema constraints (e.g., proper table and column names).
+    Gracefully handles ambiguous, incomplete, or incorrect user inputs,providing feedback to help the user refine their query
+    ** DO NOT CHANGE THE ORIGINAL PLAINT TEXT QUERY UNDER ANY CIRCUMSTANCES**
+    After getting the results, you need to format the results in a neat and presentable manner.
+    If the response is too long or contains two many values, only append a few values in the final output.
+    Make sure that the results are relevant to the original plain text query.
+    plain text query: {plain_query}.
+
+  expected_output: >
+    All relevant results after executing query in a neat and presentable manner.
+    Also return the sql query given by previous step as query = "<sql query returned by previous step>"
+    Formatted as markdown.
+
+    example_output:
+    
+    ### Question
+    Show the top 5 films rented the most across all stores.(*should have a line break after heading*)
+
+    ### Result
+    | Film Title           | Total Rentals |
+    |-----------------------|----------------|
+    | BUCKET BROTHERHOOD    | 34             |
+    | ROCKETEER MOTHER     | 33             |
+    | RIDGEMONT SUBMARINE   | 32             |
+    | SCALAWAG DUCK        | 32             |
+    | FORWARD TEMPLE        | 32             |
+
+    ### Query used
+    ```sql
+    SELECT f.title, COUNT(r.rental_id) AS total_rentals
+    FROM film f
+    JOIN inventory i ON f.film_id = i.film_id
+    JOIN rental r ON i.inventory_id = r.inventory_id
+    GROUP BY f.title
+    ORDER BY total_rentals DESC
+    LIMIT 5
+    ```
+    
+    Key Formatting Tips:
+    1. **Break each clause (`FROM`, `JOIN`, `WHERE`, `GROUP BY`) into a new line** to improve readability.
+    2. **Indent conditions under `WHERE` for better clarity**.
+    
+    This will ensure that your query appears properly formatted in Markdown-rendered documents.
+
+  agent: query_executer
