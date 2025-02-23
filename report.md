@@ -23,6 +23,5 @@ GROUP BY f.title
 ORDER BY total_revenue DESC
 LIMIT 5;
 ```
-```
 
 
