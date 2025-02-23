@@ -47,7 +47,7 @@ This multi-agent approach ensures that the system is both scalable and robust, e
 5. **Error Handling:** If the input is ambiguous or incorrect, the system provides feedback to help the user refine their query.
 
 ## Main Analysis and Results
-For detailed analysis and evaluation results, refer to the [report.md](./report.md) file. The system has been tested against 40 predefined queries, and accuracy is assessed based on:
+For detailed analysis and evaluation results, refer to the [final.md](./final.md) file. The system has been tested against 40 predefined queries, and accuracy is assessed based on:
 - **100%** for fully correct queries.
 - **50%** for logically correct queries with minor errors.
 - **0%** for incorrect queries or queries that produce incorrect results.
